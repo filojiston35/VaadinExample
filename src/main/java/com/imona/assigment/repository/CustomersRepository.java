@@ -1,5 +1,6 @@
-package com.imona.assigment;
+package com.imona.assigment.repository;
 
+import com.imona.assigment.model.Customers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
