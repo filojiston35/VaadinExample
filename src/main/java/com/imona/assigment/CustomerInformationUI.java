@@ -15,17 +15,23 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.annotation.WebServlet;
+import java.util.List;
 
 @SpringUI
 @Theme("valo")
 public class CustomerInformationUI extends UI {
     private String errLabel = "";
 
+
+    @Autowired
+    private CustomersRepository customersRepository;
+
+
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
         final VerticalLayout mainLayout = new VerticalLayout();
-        mainLayout.setSizeFull();//to ensure whole space is in use
         final FormLayout formLayout = new FormLayout();
         final VerticalLayout contentLayout = new VerticalLayout();
         final HorizontalLayout footerLayout = new HorizontalLayout();
@@ -33,6 +39,12 @@ public class CustomerInformationUI extends UI {
         mainLayout.setSizeFull();//to ensure whole space is in use
 
         formLayout.setSizeFull();
+        /**/
+        List<Customers> customers = customersRepository.findAll();
+        Label test=new Label();
+        test.setValue(customers.get(0).getFirstName()+"-"+customers.get(0).getLastName());
+        mainLayout.addComponent(test);
+        /**/
         contentLayout.addComponent(formLayout);
         contentLayout.addComponent(footerLayout);
         mainLayout.addComponent(contentLayout);
@@ -230,7 +242,7 @@ public class CustomerInformationUI extends UI {
         footerLayout.addComponent(cancelButton);
 
     }
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(urlPatterns = "/home", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = CustomerInformationUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
